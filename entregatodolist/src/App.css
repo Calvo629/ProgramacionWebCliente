@@ -1,0 +1,174 @@
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor principal */
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Logo */
+.app-logo {
+  display: block;
+  margin: 0 auto 30px;
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Título */
+h1 {
+  margin-bottom: 30px;
+  color: #333;
+  text-align: center;
+  font-size: 2.5rem;
+  width: 100%;
+}
+
+/* Contenedor de la lista */
+.todo-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Formulario */
+.formulario {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.formulario input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+}
+
+.formulario input:focus {
+  border-color: #4CAF50;
+}
+
+.formulario button {
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.formulario button:hover {
+  background-color: #45a049;
+}
+
+/* Lista de tareas */
+.list-todo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tareas */
+.todo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
+  padding: 15px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.todo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.todo-text {
+  flex-grow: 1;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  padding: 0 10px;
+}
+
+.todo.completed .todo-text {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.todo-icon-container {
+  cursor: pointer;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+
+.todo-icon {
+  font-size: 20px;
+  color: #ff4444;
+  transition: color 0.3s;
+}
+
+.todo-icon:hover {
+  color: #ff0000;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .formulario {
+    flex-direction: column;
+  }
+
+  .formulario input,
+  .formulario button {
+    width: 100%;
+  }
+
+  .app-logo {
+    width: 150px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}
