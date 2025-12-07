@@ -9,7 +9,7 @@ export default function ArtistWidget() {
   const [selected, setSelected] = useState([]);    // 📦 Tus favoritos
   const [buscar, setBuscar] = useState("");        // 📦 Lo que escribes
 
-  // 2º useEffect = Hace algo AUTOMÁTICO
+  // 2º useEffect
   useEffect(() => {
     // Esto pasa cuando la página carga
     const saved = localStorage.getItem('favorite_artists');
