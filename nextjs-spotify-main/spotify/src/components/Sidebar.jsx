@@ -1,18 +1,23 @@
+// Este componente Sidebar muestra la barra lateral de navegación de la app
 'use client';
 
+
+// Importamos Link para navegación y hooks para saber la ruta actual y navegar
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-export default function Sidebar() {
-  const pathname = usePathname();
-  const router = useRouter();
 
-  // Comprueba si la ruta está activa
+// Componente principal de la barra lateral
+export default function Sidebar() {
+  const pathname = usePathname(); // Ruta actual
+  const router = useRouter();     // Para navegar entre páginas
+
+  // Función para saber si un enlace está activo (resalta el botón)
   const isActive = (path) => pathname === path;
 
   return (
     <div className="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-indigo-950/90 via-purple-900/90 to-blue-950/90 backdrop-blur-md p-4 border-r-2 border-cyan-400/30 shadow-xl">
-      {/* Imagen de título */}
+      {/* Imagen de título de la app */}
       <div className="flex flex-col items-center mb-8">
         <img
           src="/IMG/title.png"
@@ -22,11 +27,12 @@ export default function Sidebar() {
         />
       </div>
 
-      {/* Música de fondo */}
+      {/* Música de fondo que suena en toda la app (oculta) */}
       <audio src="/song.mp3" autoPlay loop hidden />
 
+      {/* Navegación principal con enlaces a cada sección */}
       <nav className="space-y-2">
-        {/* Home */}
+        {/* Enlace a Home (dashboard principal) */}
         <Link 
           href="/dashboard"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -38,7 +44,7 @@ export default function Sidebar() {
           Home
         </Link>
 
-        {/* Artistas */}
+        {/* Enlace a artistas favoritos */}
         <Link 
           href="/dashboard/artists"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -50,7 +56,7 @@ export default function Sidebar() {
           Artistas
         </Link>
 
-        {/* Tracks */}
+        {/* Enlace a canciones favoritas */}
         <Link 
           href="/dashboard/tracks"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -62,7 +68,7 @@ export default function Sidebar() {
           Tracks
         </Link>
 
-        {/* Géneros */}
+        {/* Enlace a géneros musicales favoritos */}
         <Link
           href="/dashboard/generos"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -74,7 +80,7 @@ export default function Sidebar() {
           Géneros
         </Link>
 
-        {/* Décadas */}
+        {/* Enlace a décadas favoritas */}
         <Link
           href="/dashboard/decadas"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -86,7 +92,7 @@ export default function Sidebar() {
           Décadas
         </Link>
 
-        {/* Popularidad */}
+        {/* Enlace a popularidad (slider) */}
         <Link
           href="/dashboard/popularidad"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -98,7 +104,7 @@ export default function Sidebar() {
           Popularidad
         </Link>
         
-        {/* Playlists */}
+        {/* Enlace a playlists generadas y guardadas */}
         <Link
           href="/dashboard/playlist"
           className={`flex items-center p-2 rounded-xl transition-all ${
@@ -111,12 +117,12 @@ export default function Sidebar() {
         </Link>
       </nav>
 
-      {/* Logout abajo del todo */}
+      {/* Botón de logout abajo del todo, limpia localStorage y vuelve al login */}
       <div className="absolute bottom-8 left-0 w-full flex justify-center">
         <button
           onClick={() => {
-            localStorage.clear();
-            router.push("http://localhost:3000/");
+            localStorage.clear(); // Borra todos los datos guardados
+            router.push("http://localhost:3000/"); // Redirige al login
           }}
           className="px-6 py-2 bg-red-500 text-white font-semibold rounded-full hover:bg-red-700 transition-all shadow-lg"
         >

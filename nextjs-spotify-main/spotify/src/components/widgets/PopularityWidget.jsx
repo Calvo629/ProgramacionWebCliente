@@ -1,12 +1,13 @@
+// Widget para seleccionar la popularidad mínima de las canciones
 'use client';
 
 import { useState, useEffect } from "react";
 
 export default function PopularityWidget() {
-  // Estado para la popularidad seleccionada
+  // Estado para la popularidad seleccionada (slider)
   const [popularity, setPopularity] = useState(50);
 
-  // Cargar popularidad guardada al montar
+  // Al montar, carga la popularidad guardada en localStorage
   useEffect(() => {
     const pop = localStorage.getItem('popularity');
     if (pop) setPopularity(Number(pop));
@@ -19,6 +20,7 @@ export default function PopularityWidget() {
     localStorage.setItem('popularity', value);
   };
 
+  // Render visual del widget
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"

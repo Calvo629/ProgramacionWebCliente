@@ -1,8 +1,10 @@
+// Widget para seleccionar décadas musicales favoritas
 'use client';
 
 import { useState, useEffect } from "react";
 
 // Lista de décadas disponibles (solo los años acabados en 0)
+// Cada objeto tiene el año inicial y el label para mostrar
 const DECADES = [
   { value: 1950, label: "1950s" },
   { value: 1960, label: "1960s" },
@@ -20,12 +22,14 @@ export default function DecadeWidget() {
 
   // Al montar, cargar décadas guardadas en localStorage
   useEffect(() => {
+    // Lee las décadas favoritas del usuario
     const saved = localStorage.getItem('favorite_decades');
     if (saved) setSelected(JSON.parse(saved));
   }, []);
 
   // Añadir o quitar década de favoritos
   const toggleSelect = (decade) => {
+    // Si ya está seleccionada, la quita; si no, la añade
     setSelected(prev => {
       let updated;
       if (prev.includes(decade.value)) {
@@ -38,6 +42,7 @@ export default function DecadeWidget() {
     });
   };
 
+  // Render visual del widget
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"
@@ -46,7 +51,7 @@ export default function DecadeWidget() {
       <div className="min-h-screen bg-gradient-to-br from-indigo-950/80 via-purple-900/80 to-blue-950/80 p-8 -m-8">
         <h1 className="text-4xl font-bold text-cyan-300 mb-8">Décadas musicales</h1>
 
-        {/* Lista de décadas */}
+        {/* Lista de décadas para seleccionar */}
         <div className="grid grid-cols-4 gap-6 mb-12">
           {DECADES.map(decade => (
             <div

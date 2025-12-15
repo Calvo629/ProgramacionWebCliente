@@ -1,18 +1,20 @@
+// Componente para mostrar la información de una canción y reproducirla
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
 import { getAccessToken } from '@/lib/auth';
 
 // ID de la canción especial (Dragon Ball Rap 1.5 de Porta)
+// Si el id coincide, se usa audio local en vez de Spotify
 const DRAGON_BALL_TRACK_ID = '59zPfFTQRSctgl4Tz07ZjJ';
 
 export default function TrackCard({ trackId }) {
   // Estado para guardar la información de la canción y el artista
-  const [track, setTrack] = useState(null);
-  const [artist, setArtist] = useState(null);
+  const [track, setTrack] = useState(null); // Info de la canción
+  const [artist, setArtist] = useState(null); // Info del artista
 
   // Referencia al audio especial (solo para Dragon Ball Rap)
-  const dragonBallAudioRef = useRef(null);
+  const dragonBallAudioRef = useRef(null); // Solo se usa si es la canción especial
 
   // Estado para saber si el audio especial está sonando
   const [isPlaying, setIsPlaying] = useState(false);
@@ -22,10 +24,11 @@ export default function TrackCard({ trackId }) {
 
   // Al entrar en la tarjeta, pausamos la música de fondo general (sidebar)
   useEffect(() => {
+    // Pausa la música de fondo al entrar
     const sidebarAudio = document.querySelector('audio[src="/song.mp3"]');
     if (sidebarAudio) sidebarAudio.pause();
 
-    // Al salir de la tarjeta, reanudamos la música de fondo y paramos el audio especial si estaba sonando
+    // Al salir, reanuda la música de fondo y para el audio especial
     return () => {
       if (sidebarAudio) sidebarAudio.play();
       if (dragonBallAudioRef.current) {
@@ -37,6 +40,7 @@ export default function TrackCard({ trackId }) {
 
   // Al montar o cambiar de canción, pedimos los datos a la API de Spotify
   useEffect(() => {
+    // Pide datos de la canción y del artista principal
     const fetchData = async () => {
       const token = getAccessToken();
       // Pedimos los datos de la canción
@@ -62,6 +66,7 @@ export default function TrackCard({ trackId }) {
 
   // Comprobar si la canción está en favoritos al montar/cambiar
   useEffect(() => {
+    // Lee favoritos de localStorage
     if (!track) return;
     const favs = JSON.parse(localStorage.getItem('favorite_tracks') || '[]');
     setIsFavorite(favs.some(f => f.id === track.id));
@@ -117,6 +122,7 @@ export default function TrackCard({ trackId }) {
   if (!track) return null;
 
   // FONDO IGUAL QUE EN EL DASHBOARD: imagen de estrella y gradiente encima
+  // El resto es renderizado visual, con comentarios en cada bloque visual
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"

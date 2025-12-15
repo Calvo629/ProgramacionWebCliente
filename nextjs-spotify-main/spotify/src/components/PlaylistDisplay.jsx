@@ -1,3 +1,4 @@
+// Componente para mostrar y generar la playlist combinando todos los filtros
 'use client';
 
 import { useState, useEffect } from "react";
@@ -6,10 +7,11 @@ import { getAccessToken } from "@/lib/auth";
 
 // Filtra canciones por popularidad mínima
 function filterByPopularity(tracks, minPopularity) {
+  // Devuelve solo las canciones con popularidad mayor o igual al mínimo
   return tracks.filter(track => track.popularity >= minPopularity);
 }
 
-// Mezcla el array de canciones
+// Mezcla el array de canciones de forma aleatoria
 function shuffleArray(array) {
   return array
     .map(value => ({ value, sort: Math.random() }))
@@ -18,13 +20,17 @@ function shuffleArray(array) {
 }
 
 export default function PlaylistDisplay() {
+  // Estado para la playlist generada
   const [playlist, setPlaylist] = useState([]);
+  // Nombre de la playlist a guardar
   const [nombrePlaylist, setNombrePlaylist] = useState("");
+  // Estado para mostrar si se está guardando
   const [guardando, setGuardando] = useState(false);
+  // Estado para mostrar si se está generando la playlist
   const [generatingPlaylist, setGeneratingPlaylist] = useState(false);
   const router = useRouter();
 
-  // Selecciones del usuario
+  // Selecciones del usuario (artistas, géneros, décadas, canciones, popularidad)
   const [selectedArtists, setSelectedArtists] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedDecades, setSelectedDecades] = useState([]);
@@ -32,6 +38,7 @@ export default function PlaylistDisplay() {
   const [selectedPopularity, setSelectedPopularity] = useState(50);
 
   useEffect(() => {
+    // Carga las selecciones del usuario desde localStorage
     setSelectedArtists(JSON.parse(localStorage.getItem('favorite_artists') || '[]'));
     setSelectedGenres(JSON.parse(localStorage.getItem('favorite_genres') || '[]'));
     setSelectedDecades(JSON.parse(localStorage.getItem('favorite_decades') || '[]'));
@@ -42,6 +49,7 @@ export default function PlaylistDisplay() {
 
   // Genera la playlist combinando todos los filtros y favoritas
   const generatePlaylist = async (addMore = false) => {
+    // Pide canciones a la API de Spotify usando todos los filtros seleccionados
     const token = getAccessToken();
     if (!token) return;
 
@@ -53,23 +61,28 @@ export default function PlaylistDisplay() {
 
       const queries = [];
 
+      // Añade filtros de artistas
       selectedArtists.forEach(artist => {
         queries.push(`artist:${artist.name}`);
       });
 
+      // Añade filtros de géneros
       selectedGenres.forEach(genre => {
         queries.push(`genre:${genre}`);
       });
 
+      // Añade filtros de décadas
       selectedDecades.forEach(decade => {
         // Si tienes start/end, usa eso. Si solo tienes el año, ajusta aquí.
         queries.push(`year:${decade}-${decade + 9}`);
       });
 
+      // Si no hay filtros, busca "top hits"
       if (queries.length === 0) {
         queries.push('top hits');
       }
 
+      // Busca canciones para cada filtro
       for (const query of queries.slice(0, 5)) {
         if (!query) continue;
 
@@ -111,6 +124,7 @@ export default function PlaylistDisplay() {
         }
       });
 
+      // Mezcla y limita a 30 canciones
       allTracks = shuffleArray(allTracks).slice(0, 30);
 
       setPlaylist(allTracks);
@@ -158,7 +172,7 @@ export default function PlaylistDisplay() {
     }
   };
 
-  // Render
+  // Render principal del componente
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat"
